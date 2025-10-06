@@ -38,8 +38,8 @@ If you encounter bugs, have ideas for improvements, or want new features, you ca
 
 ## Preview
 ### Button
-![Button photo](https://github.com/olekdrabina/letterboxdEnchaner/blog/main/assets/button.png)
+![Button photo](https://github.com/olekdrabina/letterboxdEnchaner/blob/main/assets/button.png)
 ### Rating Hidden
-![Rating hidden photo](https://github.com/olekdrabina/letterboxdEnchaner/blog/main/assets/rating-hidden.png)
+![Rating hidden photo](https://github.com/olekdrabina/letterboxdEnchaner/blob/main/assets/rating-hidden.png)
 ### Rating Shown
 ![Rating shown photo](https://github.com/olekdrabina/letterboxdEnchaner/blob/main/assets/rating-shown.png)
