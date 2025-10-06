@@ -2,9 +2,7 @@
 Enhances the Letterboxd site with a range of useful quality-of-life improvements for a cleaner, more focused experience.
 
 ## Features
-- Adds a toggle button on film pages to show or hide:<img width="819" height="791" alt="Screenshot 2025-10-06 at 11 37 40" src="https://github.com/user-attachments/assets/8f1e142b-a205-4360-a919-7adc201a8ea8" />
-<img width="821" height="743" alt="Screenshot 2025-10-06 at 11 37 27" src="https://github.com/user-attachments/assets/f473b1e4-db7a-45c9-9d60-3052c6d366fd" />
-
+- Adds a toggle button on film pages to show or hide:
   - Movie ratings
   - Movie reviews
   - Friend’s ratings
