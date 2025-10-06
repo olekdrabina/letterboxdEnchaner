@@ -7,7 +7,7 @@ const selectors = [
     "#film-page-wrapper > div.col-17 > section.section.activity-from-friends.-clear.-friends-watched.-no-friends-want-to-watch"
 ]
 
-// hiding while loading
+// hide while loading
 let loading = true
 const loadingSelectors = [
     "#film-page-wrapper > div.col-17 > aside > section.section.ratings-histogram-chart",
@@ -42,29 +42,34 @@ function passive() {
 
     // letterboxd.com/film/*
     if (window.location.href.startsWith("https://letterboxd.com/film/")) {
-        let justwatchServices = document.querySelector("#watch > div:last-of-type")
-        let justwatchNotStreaming = document.querySelector("#watch > div.other.-message.js-not-streaming")
-        if (justwatchNotStreaming) {
+        function removeIfExists(sel) {
+            const el = document.querySelector(sel)
+            if (el) el.remove()
+        }
+
+        const selectorsToRemove = [
+            "#watch > div.other.-message.js-not-streaming",
+            "#watch > div.other.-message",
+            'ul.js-actions-panel > li:nth-last-of-type(2)',
+            "#userpanel > ul > li.panel-sharing.sharing-toggle.js-actions-panel-sharing",
+            "#film-page-wrapper > div.col-17 > section.section-margin.film-news",
+            "#film-page-wrapper > div.col-17 > section.section.related-films.-clear > div.nanocrowd-attribution.-is-not-stacked",
+            "#film-hq-mentions"
+        ]
+        selectorsToRemove.forEach(removeIfExists)
+
+        // special case for JustWatch – remove the parent if "not streaming"
+        const justwatchServices = document.querySelector("#watch > div:last-of-type")
+        const justwatchNotStreaming = document.querySelector("#watch > div.other.-message.js-not-streaming")
+        if (justwatchNotStreaming && justwatchServices?.parentElement?.parentElement) {
             justwatchServices.parentElement.parentElement.remove()
         } else if (justwatchServices) {
             justwatchServices.remove()
         }
-        let justwatchPro = document.querySelector("#watch > div.other.-message")
-        if (justwatchPro) justwatchPro.remove()
-        let sideBarPatronPoster = document.querySelector('ul.js-actions-panel > li:nth-last-of-type(2)')
-        if (sideBarPatronPoster) sideBarPatronPoster.remove()
-        let sideBarShare = document.querySelector("#userpanel > ul > li.panel-sharing.sharing-toggle.js-actions-panel-sharing")
-        if (sideBarShare) sideBarShare.remove()
-        let filmNews = document.querySelector("#film-page-wrapper > div.col-17 > section.section-margin.film-news")
-        if (filmNews) filmNews.remove()
-        let nanoCrowd = document.querySelector("#film-page-wrapper > div.col-17 > section.section.related-films.-clear > div.nanocrowd-attribution.-is-not-stacked")
-        if (nanoCrowd) nanoCrowd.remove()
-        let filmMentionedBy = document.querySelector("#film-hq-mentions")
-        if (filmMentionedBy) filmMentionedBy.remove()
     }
 }
 
-// hide ratings
+// hide/show rating
 function hideRatings() {
     let li = document.createElement("li")
     document.querySelector("#userpanel > ul").appendChild(li)
@@ -149,6 +154,7 @@ function hideRatings() {
     checkWatched()
 }
 
+// initial run
 setTimeout(() => {
     passive()
 
