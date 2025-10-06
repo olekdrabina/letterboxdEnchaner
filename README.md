@@ -2,7 +2,9 @@
 Enhances the Letterboxd site with a range of useful quality-of-life improvements for a cleaner, more focused experience.
 
 ## Features
-- Adds a toggle button to show or hide:
+- Adds a toggle button on film pages to show or hide:<img width="819" height="791" alt="Screenshot 2025-10-06 at 11 37 40" src="https://github.com/user-attachments/assets/8f1e142b-a205-4360-a919-7adc201a8ea8" />
+<img width="821" height="743" alt="Screenshot 2025-10-06 at 11 37 27" src="https://github.com/user-attachments/assets/f473b1e4-db7a-45c9-9d60-3052c6d366fd" />
+
   - Movie ratings
   - Movie reviews
   - Friend’s ratings
@@ -37,3 +39,9 @@ If you encounter bugs, have ideas for improvements, or want new features, you ca
 - **Contribute:** Fork the repository, make changes, and submit a pull request.
 
 ## Preview
+### Button
+![Button photo](https://github.com/olekdrabina/letterboxdEnchaner/blog/main/assets/button.png)
+### Rating Hidden
+![Rating hidden photo](https://github.com/olekdrabina/letterboxdEnchaner/blog/main/assets/rating-hidden.png)
+### Rating Shown
+![Rating shown photo](https://github.com/olekdrabina/letterboxdEnchaner/blob/main/assets/rating-shown.png)
