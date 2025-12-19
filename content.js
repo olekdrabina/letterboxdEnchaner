@@ -40,7 +40,6 @@ function passive() {
     const selectorsToRemove = [
         "#watch > div.other.-message.js-not-streaming",
         "#watch > div.other.-message",
-        'ul.js-actions-panel > li:nth-last-of-type(2)',
         "#userpanel > ul > li.panel-sharing.sharing-toggle.js-actions-panel-sharing",
         "#film-page-wrapper > div.col-17 > section.section-margin.film-news",
         "#film-page-wrapper > div.col-17 > section.section.related-films.-clear > div.nanocrowd-attribution.-is-not-stacked",
@@ -51,6 +50,19 @@ function passive() {
     ]
     selectorsToRemove.forEach(removeIfExists)
 
+    // when where to watch empty then remove its header
+    const watch = document.querySelector("#watch")
+    const header = document.querySelector("#js-poster-col > section.watch-panel.js-watch-panel > div.header")
+    const headerHr = document.querySelector("#js-poster-col > section.watch-panel.js-watch-panel")
+    if (watch && watch.querySelectorAll("section").length == 0 && header && headerHr) {
+        header.remove()
+        headerHr.remove()
+    }
+
+    // film page patron ad
+    const patronAd = document.querySelector("ul.js-actions-panel > li:last-of-type")
+    if (patronAd && patronAd.children[0]?.children[0]?.tagName == 'SPAN' && patronAd.children[0].children[0].textContent.toLowerCase() == 'patron') patronAd.remove()
+
     // remove weird margin div after "Popular on Letterboxd"
     function removeDynamicDivAfterPopular() {
         const popular = document.querySelector("#popular-with-everyone")
@@ -60,7 +72,7 @@ function passive() {
 
         function checkNext() {
             let next = popular.nextElementSibling
-            while (next && next.tagName.toLowerCase() === "div") {
+            while (next && next.tagName.toLowerCase() == "div") {
                 next.remove()
                 next = popular.nextElementSibling
             }
