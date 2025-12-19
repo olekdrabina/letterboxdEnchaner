@@ -207,6 +207,4 @@ setTimeout(() => {
 
         hideRatings()
     }
-
-    console.log("letterboxd enchancer loaded")
 }, 1000)

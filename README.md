@@ -39,7 +39,7 @@ If you encounter bugs, have ideas for improvements, or want new features, you ca
 - **Contribute:** Fork the repository, make changes, and submit a pull request
 
 ## Preview
-### Button
+### Show rating button
 ![Button photo](https://github.com/olekdrabina/letterboxdEnchaner/blob/main/assets/button.png)
 ### Rating Hidden
 ![Rating hidden photo](https://github.com/olekdrabina/letterboxdEnchaner/blob/main/assets/rating-hidden.png)
