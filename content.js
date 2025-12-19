@@ -1,10 +1,13 @@
-const selectors = [
+const hideSelectors = [
     "#film-page-wrapper > div.col-17 > aside > section.section.ratings-histogram-chart",
     "#js-poster-col > section.poster-list.-p230.-single.no-hover.el.col > div.production-statistic-list > div.production-statistic.-top250",
     "#js-poster-col > section.poster-list.-p230.-single.no-hover.el.col > div.production-statistic-list > div.production-statistic.-likes",
     "#film-page-wrapper > div.col-17 > section.film-recent-reviews.-clear > section.film-reviews.section.js-popular-reviews",
     "#film-page-wrapper > div.col-17 > section.film-recent-reviews.-clear > section.film-reviews.section.js-recent-reviews",
-    "#film-page-wrapper > div.col-17 > section.section.activity-from-friends.-clear.-friends-watched.-no-friends-want-to-watch"
+    "#film-page-wrapper > div.col-17 > section.section.activity-from-friends.-clear.-friends-watched.-no-friends-want-to-watch",
+    "#film-page-wrapper > div.col-17 > section.film-recent-reviews.-clear > section.film-reviews.section.js-popular-friend-reviews",
+    "#production-popular-lists",
+    "#lists"
 ]
 
 // hide while loading
@@ -44,7 +47,6 @@ function passive() {
         "#film-hq-mentions",
         "#content > div.content-wrap > div.banner.banner-950.js-hide-in-app",
         "#latest-news",
-        "#userpanel > ul > li:nth-child(2)",
         "#content > div > div > aside > section.activity-settings.js-activity-filters.pro-message > form > small",
     ]
     selectorsToRemove.forEach(removeIfExists)
@@ -105,6 +107,11 @@ function passive() {
     } else if (justwatchServices) {
         justwatchServices.remove()
     }
+
+    if (!window.location.href.startsWith("https://letterboxd.com/film/")) {
+        let listProAd = document.querySelector("#userpanel > ul > li:nth-child(2)")
+        if (listProAd) listProAd.remove()
+    }
 }
 
 // hide/show rating
@@ -123,7 +130,7 @@ function hideRatings() {
             displayState = ""
             toggleBtn.textContent = "Hide rating"
         }
-        selectors.forEach(sel => { 
+        hideSelectors.forEach(sel => { 
             const el = document.querySelector(sel)
             if (sel == "#film-page-wrapper > div.col-17 > section.section.activity-from-friends.-clear.-friends-watched.-no-friends-want-to-watch") {
                 let friends = document.querySelectorAll("#film-page-wrapper > div.col-17 > section.section.activity-from-friends.-clear > ul > li > a > span.rating")
