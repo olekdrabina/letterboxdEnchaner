@@ -29,43 +29,81 @@ observer.observe(document.body, {
 })
 
 // passive events (e.g. adblock)
+function removeIfExists(sel) {
+    const el = document.querySelector(sel)
+    if (el) el.remove()
+}
 function passive() {
-    let ad1 = document.querySelector("#content > div.content-wrap > div.banner.banner-950.js-hide-in-app")
-    if (ad1) ad1.remove()
-    let ad2 = document.querySelector("#content > div > div > aside > div > a > img")
+    const selectorsToRemove = [
+        "#watch > div.other.-message.js-not-streaming",
+        "#watch > div.other.-message",
+        'ul.js-actions-panel > li:nth-last-of-type(2)',
+        "#userpanel > ul > li.panel-sharing.sharing-toggle.js-actions-panel-sharing",
+        "#film-page-wrapper > div.col-17 > section.section-margin.film-news",
+        "#film-page-wrapper > div.col-17 > section.section.related-films.-clear > div.nanocrowd-attribution.-is-not-stacked",
+        "#film-hq-mentions",
+        "#content > div.content-wrap > div.banner.banner-950.js-hide-in-app",
+        "#latest-news",
+        "#userpanel > ul > li:nth-child(2)",
+        "#content > div > div > aside > section.activity-settings.js-activity-filters.pro-message > form > small",
+    ]
+    selectorsToRemove.forEach(removeIfExists)
+
+    // remove weird margin div after "Popular on Letterboxd"
+    function removeDynamicDivAfterPopular() {
+        const popular = document.querySelector("#popular-with-everyone")
+        if (!popular) return
+        const parent = popular.parentNode
+        if (!parent) return
+
+        function checkNext() {
+            let next = popular.nextElementSibling
+            while (next && next.tagName.toLowerCase() === "div") {
+                next.remove()
+                next = popular.nextElementSibling
+            }
+        }
+        checkNext()
+
+        const observer = new MutationObserver(() => {
+            checkNext()
+        })
+        observer.observe(parent, { childList: true })
+    }
+    removeDynamicDivAfterPopular()
+
+    // activity settings
+    const activitySettingsForm = document.querySelector("#content > div > div > aside > section.activity-settings.js-activity-filters.pro-message > form")
+    if (activitySettingsForm) activitySettingsForm.style.paddingBottom = 0
+    const activitySettingsBtn1 = document.querySelector("#content > div > div > aside > section.activity-settings.js-activity-filters.pro-message > form > label:nth-child(1)")
+    if (activitySettingsBtn1) activitySettingsBtn1.style.paddingTop = "12px"
+    const activitySettingsBtn2 = document.querySelector("#content > div > div > aside > section.activity-settings.js-activity-filters.pro-message > form > label.option-label.-toggle.-small.switch-control.-block.-highcontrast.divider")
+    if (activitySettingsBtn2) activitySettingsBtn2.style.borderBottom = "none"
+
+    // move rental slightly
+    const observer = new MutationObserver((mutations, obs) => {
+        const el = document.querySelector("#user-homepage-container > div.videostore-feature.section")
+        if (el) {
+            const next = el?.nextElementSibling?.nextElementSibling
+            if (next) next.after(el)
+            obs.disconnect()
+        }
+    })
+    observer.observe(document.body, {childList: true, subtree: true})
+
+    // remove ads
+    const ad2 = document.querySelector("#content > div > div > aside > div > a > img")
     if (ad2) ad2.parentElement.parentElement.remove()
-    let ad3 = document.querySelectorAll(".upgrade-kicker")
+    const ad3 = document.querySelectorAll(".upgrade-kicker")
     ad3.forEach(ad => ad.remove())
 
-    let news = document.querySelector("#latest-news")
-    if (news) news.remove()
-
-    // letterboxd.com/film/*
-    if (window.location.href.startsWith("https://letterboxd.com/film/")) {
-        function removeIfExists(sel) {
-            const el = document.querySelector(sel)
-            if (el) el.remove()
-        }
-
-        const selectorsToRemove = [
-            "#watch > div.other.-message.js-not-streaming",
-            "#watch > div.other.-message",
-            'ul.js-actions-panel > li:nth-last-of-type(2)',
-            "#userpanel > ul > li.panel-sharing.sharing-toggle.js-actions-panel-sharing",
-            "#film-page-wrapper > div.col-17 > section.section-margin.film-news",
-            "#film-page-wrapper > div.col-17 > section.section.related-films.-clear > div.nanocrowd-attribution.-is-not-stacked",
-            "#film-hq-mentions"
-        ]
-        selectorsToRemove.forEach(removeIfExists)
-
-        // special case for JustWatch – remove the parent if "not streaming"
-        const justwatchServices = document.querySelector("#watch > div:last-of-type")
-        const justwatchNotStreaming = document.querySelector("#watch > div.other.-message.js-not-streaming")
-        if (justwatchNotStreaming && justwatchServices?.parentElement?.parentElement) {
-            justwatchServices.parentElement.parentElement.remove()
-        } else if (justwatchServices) {
-            justwatchServices.remove()
-        }
+    // JustWatch – remove the parent if "not streaming"
+    const justwatchServices = document.querySelector("#watch > div:last-of-type")
+    const justwatchNotStreaming = document.querySelector("#watch > div.other.-message.js-not-streaming")
+    if (justwatchNotStreaming && justwatchServices?.parentElement?.parentElement) {
+        justwatchServices.parentElement.parentElement.remove()
+    } else if (justwatchServices) {
+        justwatchServices.remove()
     }
 }
 
