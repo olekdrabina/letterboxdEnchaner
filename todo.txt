@@ -1,5 +1,80 @@
 - make everything happen faster than 1 second timeout
-- settings.html:
-    existing features:
-        - 
-    new feature:
+- add something about options and maybe screenshot to readme
+- firefox support
+- release in chrome web store
+
+EXISTING FEATURES:
+- settings.html: (not specified -> default on)
+    turn off/on extension (hide all options when off, change icon to black/white)
+
+    ADS
+    - delete ads
+    FILM PAGE
+    - hide/show:
+        - create button for hide/show rating
+        - hide rating
+        - hide likes
+        - hide top250
+        - hide friends ratings
+        - hide friends reviews
+        - hide popular reviews
+        - hide recent reviews
+        - hide popular lists
+        - hide your lists
+        - hide lists you liked
+    - delete "where to watch" when not streaming
+    - delete news
+    - delete "mentioned by"
+
+NON-EXISTING FEATURES: (default off/on to be determined)
+- margin-top: -21px; for document.querySelector("#content > div > div.cols-3.overflow > aside > section:nth-child(1) > h3")
+- hide ratings
+- hide likes & top250 on "POPULAR FILMS THIS WEEK"
+- hide ratings in "POPULAR REVIES THIS WEEK" & "NEW FROM FRIENDS"
+- something custom on film page for some movies (maybe default off)
+- mpa rating
+- hide ratings in "REVIEWS YOU LIKED" on film page
+- defaults search films
+- go to film butotn (3 dots when hovering on movie from "NEW FROM FRIENDS")
+- move "LATEST NEWS" under "POPULAR LISTS" on main page
+- convert all ratings to 5 or 10 point scale
+- hide rating on reviews page and hide ratings of liked reviews there
+- hide show supported html, reviews & list description editor enchancer (adding supported html with one click - <a href=""> <strong> <em> <b> <i> <blockquote>)
+- remove from filters:
+    - show custom posters
+    - logged
+    - rewatched
+    - reviewed
+    - hide documentaries
+- display the cast member's image when hovering over their name
+- additional film ratings from other sites:
+    - imdb
+    - rotten tomatoes
+    - metacritic
+    - myanimelist
+- show more/less ratings button for additional film ratings
+- awards on people pages:
+    - oscar wins & nominees
+    - bafta wins & nominees
+    - golden globe wins & nominees
+- additional top film rankings next to letterboxd top250:
+    AWARDS: (show awards on click)
+        - oscar wins & nominees
+        - bafta wins & nominees
+        - golden globe wins & nominees
+    LISTS: (letterboxd list on click)
+    - "They Shoot Pictures, Don't They?" top 1000 
+    - "BFI Sight and Sound" top 250
+- additional "More at" on film page:
+    - wiki
+- additional "More details at" on people pages:
+    - imdb
+    - wiki
+- show wide release date on top in releases and when hovering on year
+- budget & box office in details tab
+- hours and minutes in modal on duration hover
+- in the place of "FANS":
+    - fans
+    - ratings count
+    - both side by side
+- import/export settings

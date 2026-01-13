@@ -1,7 +1,4 @@
 const selectorsToRemove = [
-    "#watch > div.other.-message.js-not-streaming",
-    "#watch > div.other.-message",
-    "#userpanel > ul > li.panel-sharing.sharing-toggle.js-actions-panel-sharing",
     "#film-page-wrapper > div.col-17 > section.section-margin.film-news",
     "#film-page-wrapper > div.col-17 > section.section.related-films.-clear > div.nanocrowd-attribution.-is-not-stacked",
     "#film-hq-mentions",
@@ -15,13 +12,18 @@ const ads = Array.from(document.querySelectorAll('div.banner.banner-950.js-hide-
 ads.forEach(ad => ad.remove())
 document.querySelectorAll(".upgrade-kicker").forEach(kicker => kicker.remove())
 
-function removeIfExists(sel) {
-    const el = document.querySelector(sel)
-    if (el) el.remove()
-}
+// function that run after passiveCooldown ms
+const passiveCooldown = 500
 function passive() {
+    // remove patron ad on film page
+    const filmPagePatronAd = document.querySelector("#userpanel > ul > li:nth-child(6) > a > span").parentElement.parentElement
+    if (filmPagePatronAd) filmPagePatronAd.remove()
+
     // remove selectors
-    selectorsToRemove.forEach(removeIfExists)
+    selectorsToRemove.forEach(selector => {
+        let selectorHTML = document.querySelector(selector)
+        if (selectorHTML) selectorHTML.remove()
+    })
 
     // make reviews & network page wider
     if (window.location.href.endsWith("/reviews/") || window.location.href.endsWith("/following/")) {
@@ -31,19 +33,6 @@ function passive() {
         if (network) network.style.width = "100%"
     }
 
-    // when where to watch empty then remove its header
-    const watch = document.querySelector("#watch")
-    const header = document.querySelector("#js-poster-col > section.watch-panel.js-watch-panel > div.header")
-    const headerHr = document.querySelector("#js-poster-col > section.watch-panel.js-watch-panel")
-    if (watch && watch.querySelectorAll("section").length == 0 && header && headerHr) {
-        header.remove()
-        headerHr.remove()
-    }
-
-    // film page patron ad
-    const patronAd = document.querySelector("ul.js-actions-panel > li:last-of-type")
-    if (patronAd && patronAd.children[0]?.children[0]?.tagName == 'SPAN' && patronAd.children[0].children[0].textContent.toLowerCase() == 'patron') patronAd.remove()
-        
     // activity settings
     const activitySettingsForm = document.querySelector("#content > div > div > aside > section.activity-settings.js-activity-filters.pro-message > form")
     if (activitySettingsForm) activitySettingsForm.style.paddingBottom = 0
@@ -64,21 +53,24 @@ function passive() {
     })
     observer2.observe(document.body, {childList: true, subtree: true})
 
-    // JustWatch – remove the parent if "not streaming"
-    const justwatchServices = document.querySelector("#watch > div:last-of-type")
-    const justwatchNotStreaming = document.querySelector("#watch > div.other.-message.js-not-streaming")
-    if (justwatchNotStreaming && justwatchServices?.parentElement?.parentElement) {
-        justwatchServices.parentElement.parentElement.remove()
-    } else if (justwatchServices) {
-        justwatchServices.remove()
+    // where to watch – remove the parent if not streaming
+    const justWatchMessage = document.querySelector("#watch > div.other.-message")
+    if (justWatchMessage) {
+        if (justWatchMessage.innerHTML.trim() == "Not streaming.") {
+            if (window.location.href.startsWith("https://letterboxd.com/film/")) {
+                document.querySelector("#js-poster-col > section.watch-panel.js-watch-panel > div.header").remove()
+                document.querySelector("#js-poster-col > section.watch-panel.js-watch-panel").remove()
+            } else {
+                document.querySelector("#content > div > div > section > div.col-4.gutter-right-1 > section.watch-panel.js-watch-panel").remove()
+            }
+        } else document.querySelector("#watch > div.other.-message").remove()
     }
 
-    if (!window.location.href.startsWith("https://letterboxd.com/film/")) {
-        let listProAd = document.querySelector("#userpanel > ul > li:nth-child(2)")
-        if (listProAd) listProAd.remove()
-    }
+    // people pages share border-radius
+    peopleShare = document.querySelector("#userpanel > ul > li")
+    if (peopleShare) peopleShare.style.borderRadius = "3px"
 }
 
 setTimeout(() => {
     passive()
-}, 1000)
+}, passiveCooldown)
