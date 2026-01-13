@@ -5,10 +5,15 @@ const selectorsToRemove = [
     "#film-page-wrapper > div.col-17 > section.section-margin.film-news",
     "#film-page-wrapper > div.col-17 > section.section.related-films.-clear > div.nanocrowd-attribution.-is-not-stacked",
     "#film-hq-mentions",
-    "#content > div.content-wrap > div.banner.banner-950.js-hide-in-app",
-    "#latest-news",
     "#content > div > div > aside > section.activity-settings.js-activity-filters.pro-message > form > small",
 ]
+ 
+// remove ads
+const ads = Array.from(document.querySelectorAll('div.banner.banner-950.js-hide-in-app, div.banner.banner-250.js-hide-in-app, div.banner.banner-230.js-hide-in-app')).filter(ad =>
+    ad.querySelector('a[href="/pro/?utm_medium=banner&utm_campaign=get-pro"]')
+)
+ads.forEach(ad => ad.remove())
+document.querySelectorAll(".upgrade-kicker").forEach(kicker => kicker.remove())
 
 function removeIfExists(sel) {
     const el = document.querySelector(sel)
@@ -48,47 +53,16 @@ function passive() {
     if (activitySettingsBtn2) activitySettingsBtn2.style.borderBottom = "none"
     
     // move rental slightly lower
-    const observer = new MutationObserver((mutations, obs) => {
+    const observer2 = new MutationObserver((mutations, obs) => {
         const el = document.querySelector("#user-homepage-container > div.videostore-feature.section")
         if (el) {
-            const next = el?.nextElementSibling
+            const next = el.nextElementSibling
             if (next) next.after(el)
-                obs.disconnect()
+            document.querySelector(".pw-div -nomargin -bottommargin").remove()
+            obs.disconnect()
         }
     })
-    observer.observe(document.body, {childList: true, subtree: true})
-    
-    // remove weird margin div after "Popular on Letterboxd"
-    function removeMarginAfterPopular() {
-        const popular = document.querySelector("#popular-with-everyone")
-        if (!popular) return
-        const parent = popular.parentNode
-        if (!parent) return
-
-        function checkNext() {
-            let next = popular.nextElementSibling
-            let safety = 0
-            while (next && next.tagName.toLowerCase() == "div" && !next.classList.contains("videostore-feature") && safety < 100) {
-                console.log(next)
-                next.remove()
-                next = popular.nextElementSibling
-                safety++
-            }
-        }
-        checkNext()
-
-        const observer = new MutationObserver(() => {
-            checkNext()
-        })
-        observer.observe(parent, { childList: true })
-    }
-    removeMarginAfterPopular()
-        
-    // remove ads
-    const ad2 = document.querySelector("#content > div > div > aside > div > a > img")
-    if (ad2) ad2.parentElement.parentElement.remove()
-    const ad3 = document.querySelectorAll(".upgrade-kicker")
-    ad3.forEach(ad => ad.remove())
+    observer2.observe(document.body, {childList: true, subtree: true})
 
     // JustWatch – remove the parent if "not streaming"
     const justwatchServices = document.querySelector("#watch > div:last-of-type")
